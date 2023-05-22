@@ -1,8 +1,9 @@
 import datetime
+import hashlib
 import os
 from typing import List
-import hashlib
-from schemas import Vault
+
+from schemas import Vault, VaultContent
 
 
 def get_pass(input: str) -> str:
@@ -24,5 +25,10 @@ def get_vault_names() -> List[str]:
 
 
 def get_vault(name: str) -> Vault:
-    content = os.getenv("AMAZON_GIFT_CARD") if name == os.getenv("AWARD_VAULT") else ""
-    return Vault(name=name, password=get_pass(name), content=content)
+    return Vault(name=name, password=get_pass(name))
+
+
+def get_vault_content(name: str) -> VaultContent:
+    vault = get_vault(name)
+    content = os.getenv("GIFT_CARD") if name == os.getenv("AWARD_VAULT") else ""
+    return VaultContent(name=vault.name, password=vault.password, content=content)

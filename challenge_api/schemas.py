@@ -1,5 +1,10 @@
 from typing import Optional
+
 from pydantic import BaseModel
+
+
+class BoxKey(BaseModel):
+    key: str
 
 
 class ChildStory(BaseModel):
@@ -14,4 +19,9 @@ class ChildFeedback(BaseModel):
 class Vault(BaseModel):
     name: str
     password: str
-    content: str
+
+
+class VaultContent(BaseModel):
+    name: str
+    password: str
+    content: Optional[str]

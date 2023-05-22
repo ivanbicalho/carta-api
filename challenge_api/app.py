@@ -1,6 +1,5 @@
-import logging
-from fastapi import FastAPI
 import challenge_route
+from fastapi import FastAPI
 
 app = FastAPI(
     title="Python Automation Course - Challenge",

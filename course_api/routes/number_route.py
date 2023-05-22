@@ -1,8 +1,8 @@
 import logging
 import random
+
 from fastapi import APIRouter, HTTPException, status
 from schemas import Number, NumbersToSum, Result
-
 
 router = APIRouter(prefix="/numbers", tags=["Numbers"])
 
