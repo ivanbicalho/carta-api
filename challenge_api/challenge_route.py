@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import PlainTextResponse
+from schemas import Detail
 from helpers import get_pass, get_story, get_vault, get_vault_content, get_vault_names
 from schemas import BoxKey, ChildFeedback, ChildStory, Vault, VaultContent
 
@@ -18,6 +19,9 @@ def get_key() -> BoxKey:
     status_code=status.HTTP_200_OK,
     response_class=PlainTextResponse,
     summary="Open the box and get the letter with the story",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {"model": Detail, "description": "Invalid box key"},
+    },
 )
 def box(box_key: str) -> str:
     if box_key != get_pass("key"):
@@ -49,6 +53,9 @@ def child(request: ChildStory) -> ChildFeedback:
     status_code=status.HTTP_200_OK,
     response_model=List[Vault],
     summary="Get all the vaults in the room and its passwords",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {"model": Detail, "description": "Invalid room code"},
+    },
 )
 def get(room_code: str) -> List[Vault]:
     if room_code != get_pass("room"):
@@ -58,7 +65,14 @@ def get(room_code: str) -> List[Vault]:
 
 
 @router.post(
-    "/vault", status_code=status.HTTP_200_OK, response_model=VaultContent, summary="Open the vault and get its content"
+    "/vault",
+    status_code=status.HTTP_200_OK,
+    response_model=VaultContent,
+    summary="Open the vault and get its content",
+    responses={
+        status.HTTP_404_NOT_FOUND: {"model": Detail, "description": "Vault not found"},
+        status.HTTP_401_UNAUTHORIZED: {"model": Detail, "description": "Invalid password for vault"},
+    },
 )
 def post(credentials: Vault) -> VaultContent:
     if credentials.name not in get_vault_names():
