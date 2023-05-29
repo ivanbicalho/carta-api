@@ -13,7 +13,7 @@ app = FastAPI(
         "Website Address": "https://carta.com",
     },
     version="0.1.0",
-    docs_url="/docs",
+    docs_url="/",
     redoc_url="/redoc",
 )
 

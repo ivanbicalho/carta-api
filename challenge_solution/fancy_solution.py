@@ -45,6 +45,10 @@ def main() -> None:
     logger.info("Getting child's feedback...")
     child_result = make_post_request("/child", json={"story": letter})
     room_code = child_result.json()["room_code"]  # The "feedback" field is only some text, we don't need it
+    if not room_code:
+        # If we read the right letter and don't get the room code, it means that the key is not valid anymore
+        # Since all keys are renewed every 10 seconds, we have to try the whole process again
+        raise PermissionError("Unauthorized")
     logger.info("Getting room code: %s", room_code)
 
     # Get vaults
@@ -55,11 +59,12 @@ def main() -> None:
 
     # Get vault's content
     for vault in vaults:
+        logger.info("Getting %s content...", vault["name"])
         vault_result = make_post_request("/vault", json={"name": vault["name"], "password": vault["password"]})
         content = vault_result.json()["content"]
 
         if content:
-            logger.info("GIFT CARD found in the %s, content: %s:", vault["name"], content)
+            logger.info("GIFT CARD found in the %s, content: %s", vault["name"], content)
             break  # Gift card found, no need to continue
         else:
             logger.info("Empty content for %s", vault["name"])
@@ -71,8 +76,8 @@ if __name__ == "__main__":
             main()
         except PermissionError as permission_error:
             # If we get a permissions error (http 401), it means that the key is not valid anymore.
-            # It's probably because we got the key when it almost expiring and it expired before
-            # the program finished its execution. So we just try again.
+            # Since all keys are renewed every 10 seconds, there was no sufficient time for the 
+            # program to execute all the steps. So we just need to try again.
             logger.info("Permission denied, trying again...")
             main()
     except Exception as error:
