@@ -1,0 +1,13 @@
+#!/bin/sh
+
+az webapp config ssl import \
+    -g rg-carta-course \
+    -n app-carta-course-api \
+    --key-vault kv-ivan-bicalho \
+    --key-vault-certificate-name 'ivanbicalhocom'
+
+az webapp config ssl import \
+    -g rg-carta-course \
+    -n app-carta-course-challenge \
+    --key-vault kv-ivan-bicalho \
+    --key-vault-certificate-name 'ivanbicalhocom'

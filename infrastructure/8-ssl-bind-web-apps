@@ -1,0 +1,16 @@
+#!/bin/sh
+
+thumbprint=$(az webapp config ssl list -g rg-carta-course --query '[0].thumbprint' -o tsv)
+
+az webapp config ssl bind \
+    -g rg-carta-course \
+    -n app-carta-course-api \
+    --ssl-type SNI \
+    --certificate-thumbprint $thumbprint
+
+az webapp config ssl bind \
+    -g rg-carta-course \
+    -n app-carta-course-challenge \
+    --ssl-type SNI \
+    --certificate-thumbprint $thumbprint
+

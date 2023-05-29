@@ -1,0 +1,18 @@
+#!/bin/sh
+
+az webapp config appsettings set \
+    -g rg-carta-course \
+    -n app-carta-course-api \
+    --settings \
+        PASSWORD_GET=$PASSWORD_GET \
+        PASSWORD_POST=$PASSWORD_POST \
+        PASSWORD_DELETE=$PASSWORD_DELETE \
+        WEBSITES_PORT=80
+
+az webapp config appsettings set \
+    -g rg-carta-course \
+    -n app-carta-course-challenge \
+    --settings \
+        GIFT_CARD="$GIFT_CARD" \
+        AWARD_VAULT=$AWARD_VAULT \
+        WEBSITES_PORT=80

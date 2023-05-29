@@ -1,0 +1,19 @@
+#!/bin/sh
+
+az webapp create \
+    -g rg-carta-course \
+    -p plan-carta-course \
+    -n app-carta-course-api \
+    --https-only true \
+    --deployment-container-image-name 'ivanbicalho.azurecr.io/carta-course-api' \
+    --docker-registry-server-user $AZURE_ACR_LOGIN \
+    --docker-registry-server-password $AZURE_ACR_PASSWORD
+
+az webapp create \
+    -g rg-carta-course \
+    -p plan-carta-course \
+    -n app-carta-course-challenge \
+    --https-only true \
+    --deployment-container-image-name 'ivanbicalho.azurecr.io/carta-course-challenge' \
+    --docker-registry-server-user $AZURE_ACR_LOGIN \
+    --docker-registry-server-password $AZURE_ACR_PASSWORD

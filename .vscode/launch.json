@@ -1,0 +1,41 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "API Course",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "api:app"
+            ],
+            "cwd": "${workspaceFolder}/course_api",
+            "jinja": true,
+            "justMyCode": true,
+            "env": {
+                "PASSWORD_GET": "1234",
+                "PASSWORD_POST": "123456",
+                "PASSWORD_DELETE": "12345678",
+            }
+        },
+        {
+            "name": "API Challenge",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "api:app"
+            ],
+            "cwd": "${workspaceFolder}/challenge_api",
+            "jinja": true,
+            "justMyCode": true,
+            "env": {
+                "GIFT_CARD": "GIFT CARD HERE",
+                "AWARD_VAULT": "vault7"
+            }
+        }
+    ]
+}

@@ -3,7 +3,9 @@ from typing import Any, Dict, Optional
 import requests
 from requests import Response
 
-BASE_URL = "http://localhost:8000/challenge"
+BASE_URL = "https://challenge.ivanbicalho.com"
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def check_status_response(response: Response) -> Response:
@@ -28,33 +30,39 @@ def make_post_request(url: str, json: Dict[str, Any]) -> Response:
 
 def main() -> None:
     # Get key
+    logger.info("Getting key...")
     key_result = make_get_request("/key")
     key = key_result.json()["key"]
-    print("Getting key: ", key)
+    logger.info("Key: %s", key)
 
     # Get letter
+    logger.info("Opening the box...")
     box_result = make_get_request("/box", params={"box_key": key})
-    letter = box_result.text  # the response here is not a json, but a plain text
-    print("Getting letter: ", letter)
+    letter = box_result.text  # The response here is not a json, but a plain text
+    logger.info("Letter: %s", letter)
 
     # Get child's feedback
+    logger.info("Getting child's feedback...")
     child_result = make_post_request("/child", json={"story": letter})
     room_code = child_result.json()["room_code"]  # The "feedback" field is only some text, we don't need it
-    print("Getting room code: ", room_code)
+    logger.info("Getting room code: %s", room_code)
 
     # Get vaults
+    logger.info("Getting vaults...")
     room_result = make_get_request("/room", params={"room_code": room_code})
     vaults = room_result.json()
-    print(f"Getting vaults: {len(vaults)} vaults")
+    logger.info("Total vaults: %s", len(vaults))
 
+    # Get vault's content
     for vault in vaults:
-        # Get vault's content
         vault_result = make_post_request("/vault", json={"name": vault["name"], "password": vault["password"]})
         content = vault_result.json()["content"]
 
         if content:
-            print(f"GIFT CARD found in the {vault['name']}:", content)
+            logger.info("GIFT CARD found in the %s, content: %s:", vault["name"], content)
             break  # Gift card found, no need to continue
+        else:
+            logger.info("Empty content for %s", vault["name"])
 
 
 if __name__ == "__main__":
@@ -62,7 +70,10 @@ if __name__ == "__main__":
         try:
             main()
         except PermissionError as permission_error:
-            print("Permission denied, trying again...")
+            # If we get a permissions error (http 401), it means that the key is not valid anymore.
+            # It's probably because we got the key when it almost expiring and it expired before
+            # the program finished its execution. So we just try again.
+            logger.info("Permission denied, trying again...")
             main()
     except Exception as error:
-        print("Something went wrong:", error)
+        logger.error("Something went wrong: %s", error)

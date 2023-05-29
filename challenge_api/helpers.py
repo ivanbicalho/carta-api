@@ -21,7 +21,7 @@ def get_story() -> str:
 
 
 def get_vault_names() -> List[str]:
-    return [f"vault{i}" for i in range(1, 51)]
+    return [f"vault{i}" for i in range(1, 11)]
 
 
 def get_vault(name: str) -> Vault:

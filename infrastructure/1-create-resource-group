@@ -1,0 +1,5 @@
+#!/bin/sh
+
+az group create \
+    -n rg-carta-course \
+    -l eastus

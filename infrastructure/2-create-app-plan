@@ -1,0 +1,8 @@
+#!/bin/sh
+
+az appservice plan create \
+    -g rg-carta-course \
+    -n plan-carta-course \
+    --is-linux \
+    -l eastus \
+    --sku B1

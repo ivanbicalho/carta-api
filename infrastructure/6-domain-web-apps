@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Add CNAME from carta.ivanbicalho.com to "app-carta-course-api.azurewebsites.net"
+# Add CNAME from challenge.ivanbicalho.com to "app-carta-course-challenge.azurewebsites.net"
+
+az webapp config hostname add \
+    -g rg-carta-course \
+    --webapp-name app-carta-course-api \
+    --hostname 'carta.ivanbicalho.com'
+
+az webapp config hostname add \
+    -g rg-carta-course \
+    --webapp-name app-carta-course-challenge \
+    --hostname 'challenge.ivanbicalho.com'

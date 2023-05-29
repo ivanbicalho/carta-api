@@ -6,7 +6,7 @@ from schemas import Detail
 from helpers import get_pass, get_story, get_vault, get_vault_content, get_vault_names
 from schemas import BoxKey, ChildFeedback, ChildStory, Vault, VaultContent
 
-router = APIRouter(prefix="/challenge", tags=["Challenge"])
+router = APIRouter(prefix="", tags=["Challenge"])
 
 
 @router.get("/key", status_code=status.HTTP_200_OK, response_model=BoxKey, summary="Get the key to open the box")

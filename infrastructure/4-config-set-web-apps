@@ -1,0 +1,13 @@
+#!/bin/sh
+
+az webapp config set \
+    -g rg-carta-course \
+    -n app-carta-course-api \
+    --ftps-state Disabled \
+    --always-on true
+
+az webapp config set \
+    -g rg-carta-course \
+    -n app-carta-course-challenge \
+    --ftps-state Disabled \
+    --always-on true

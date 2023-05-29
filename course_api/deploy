@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo 'building...'
+docker build . -t ivanbicalho.azurecr.io/carta-course-api --platform linux/amd64
+
+echo 'publishing...'
+docker push ivanbicalho.azurecr.io/carta-course-api
