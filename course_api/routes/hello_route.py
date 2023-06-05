@@ -9,6 +9,6 @@ def hello():
     return "Hello World!"
 
 
-@router.post("/hey", status_code=status.HTTP_200_OK, summary="Hey")
+@router.get("/hey", status_code=status.HTTP_200_OK, summary="Hey")
 def hey():
     return {"message": "Hey!"}
