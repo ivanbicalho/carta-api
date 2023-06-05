@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 
 
+class Detail(BaseModel):
+    detail: str
+
+
 class Message(BaseModel):
     name: str
     message: str
