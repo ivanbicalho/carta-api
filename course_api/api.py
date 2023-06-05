@@ -1,6 +1,5 @@
-import logging
-
 from fastapi import FastAPI
+from routes import hello_route
 from routes import message_route, number_route
 
 app = FastAPI(
@@ -17,6 +16,6 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-
-app.include_router(message_route.router)
+app.include_router(hello_route.router)
 app.include_router(number_route.router)
+app.include_router(message_route.router)
